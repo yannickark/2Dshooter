@@ -40,6 +40,35 @@ namespace _2DShooter
         }
 
         public void Update(GameTime gameTime)
-        { }
+        {
+            KeyboardState keyState = Keyboard.GetState();
+
+            //Controls
+            if (keyState.IsKeyDown(Keys.W))
+                position.Y = position.Y - speed;
+
+            if (keyState.IsKeyDown(Keys.A))
+                position.X = position.X - speed;
+
+            if (keyState.IsKeyDown(Keys.S))
+                position.Y = position.Y + speed;
+
+            if (keyState.IsKeyDown(Keys.D))
+                position.X = position.X + speed;
+
+            // Make sure ship stays inbounds
+
+            if (position.X <= 0)
+                position.X = 0;
+
+            if (position.X >= 800 - texture.Width)
+                position.X = 800 - texture.Width;
+
+            if (position.Y <= 0)
+                position.Y = 0;
+
+            if (position.Y >= 950 - texture.Height)
+                position.Y = 950 - texture.Height;
+        }
     }
 }

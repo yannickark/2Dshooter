@@ -9,6 +9,9 @@ namespace _2DShooter
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Player p = new Player();
+        Starfield sf = new Starfield();
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -29,6 +32,8 @@ namespace _2DShooter
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            p.LoadContent(Content);
+            sf.loadContent(Content);
         }
 
         protected override void UnloadContent()
@@ -42,12 +47,22 @@ namespace _2DShooter
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            p.Update(gameTime);
+            sf.Update(gameTime);
+
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+
+            spriteBatch.Begin();
+
+            sf.Draw(spriteBatch);
+            p.Draw(spriteBatch);
+
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
