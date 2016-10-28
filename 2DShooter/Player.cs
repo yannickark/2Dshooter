@@ -26,7 +26,7 @@ namespace _2DShooter
             bulletList = new List<Bullet>();
             texture = null;
             position = new Vector2(300, 300);
-            bulletDelay = 5;
+            bulletDelay = 20;
             speed = 10;
             isColliding = false;
         }
@@ -102,7 +102,7 @@ namespace _2DShooter
             }
 
             if (bulletDelay == 0)
-                bulletDelay = 5;    
+                bulletDelay = 20;    
         }
 
         public void UpdateBullets()

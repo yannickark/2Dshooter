@@ -18,28 +18,34 @@ namespace _2DShooter
         public Vector2 origin;
         public float rotationAngle;
         public int speed;
-        public bool isColliding, destroyed;
 
-        public Asteroid()
+        public bool isVisible;
+        Random random = new Random();
+        public float randX, randY;
+
+
+        public Asteroid(Texture2D newTexture, Vector2 newPosition)
         {
-            position = new Vector2(400, -50);
-            texture = null;
+            texture = newTexture;
+            position = newPosition;
             speed = 4;
-            isColliding = false;
-            destroyed = false;
+
+            isVisible = true;
+            randX = random.Next(0, 750);
+            randY = random.Next(-600, -50);
         }
 
         public void loadContent(ContentManager Content)
         {
-            texture = Content.Load<Texture2D>("asteroid");
-            origin.X = texture.Width / 2;
-            origin.Y = texture.Height / 2;
         }
 
         public void Update(GameTime gameTime)
         {
             // Collision bounding box
             boundingBox = new Rectangle((int)position.X, (int)position.Y, texture.Width, texture.Height);
+
+            origin.X = texture.Width / 2;
+            origin.Y = texture.Height / 2;
 
             // Asteroid movement
             position.Y = position.Y + speed;
@@ -55,7 +61,7 @@ namespace _2DShooter
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (!destroyed)
+            if (isVisible)
                 spriteBatch.Draw(texture, position, null, Color.White, rotationAngle, origin, 1.0f, SpriteEffects.None, 0f);
         }
     }

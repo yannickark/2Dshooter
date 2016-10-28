@@ -1,4 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -8,10 +14,12 @@ namespace _2DShooter
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Random random = new Random();
+        public int maxAsteroids = 5;
 
+        List<Asteroid> asteroidList = new List<Asteroid>();
         Player p = new Player();
         Starfield sf = new Starfield();
-        Asteroid asteroid = new Asteroid();
 
         public Game1()
         {
@@ -35,7 +43,6 @@ namespace _2DShooter
             spriteBatch = new SpriteBatch(GraphicsDevice);
             p.LoadContent(Content);
             sf.loadContent(Content);
-            asteroid.loadContent(Content);
         }
 
         protected override void UnloadContent()
@@ -49,9 +56,15 @@ namespace _2DShooter
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            foreach (Asteroid a in asteroidList)
+            {
+                a.Update(gameTime);
+            }
+
+            LoadAsteroids();
+
             p.Update(gameTime);
             sf.Update(gameTime);
-            asteroid.Update(gameTime);
             
             base.Update(gameTime);
         }
@@ -63,12 +76,37 @@ namespace _2DShooter
             spriteBatch.Begin();
 
             sf.Draw(spriteBatch);
-            asteroid.Draw(spriteBatch);
+
+            foreach (Asteroid a in asteroidList)
+            {
+                a.Draw(spriteBatch);
+            }
+
             p.Draw(spriteBatch);
 
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public void LoadAsteroids()
+        {
+            int randY = random.Next(-600, -50);
+            int randX = random.Next(0, 750);
+
+            if (asteroidList.Count() < maxAsteroids)
+            {
+                asteroidList.Add(new Asteroid(Content.Load<Texture2D>("asteroid"), new Vector2(randX, randY)));
+            }
+
+            for (int i = 0; i < asteroidList.Count; i++)
+            {
+                if (!asteroidList[i].isVisible)
+                {
+                    asteroidList.RemoveAt(i);
+                    i--; 
+                }
+            }
         }
     }
 }
