@@ -11,6 +11,7 @@ namespace _2DShooter
 
         Player p = new Player();
         Starfield sf = new Starfield();
+        Asteroid asteroid = new Asteroid();
 
         public Game1()
         {
@@ -34,6 +35,7 @@ namespace _2DShooter
             spriteBatch = new SpriteBatch(GraphicsDevice);
             p.LoadContent(Content);
             sf.loadContent(Content);
+            asteroid.loadContent(Content);
         }
 
         protected override void UnloadContent()
@@ -49,7 +51,8 @@ namespace _2DShooter
 
             p.Update(gameTime);
             sf.Update(gameTime);
-
+            asteroid.Update(gameTime);
+            
             base.Update(gameTime);
         }
 
@@ -60,6 +63,7 @@ namespace _2DShooter
             spriteBatch.Begin();
 
             sf.Draw(spriteBatch);
+            asteroid.Draw(spriteBatch);
             p.Draw(spriteBatch);
 
             spriteBatch.End();
